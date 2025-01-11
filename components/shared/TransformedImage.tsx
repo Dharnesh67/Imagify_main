@@ -8,15 +8,16 @@ import React from 'react'
 
 const TransformedImage = ({ image, type, title, transformationConfig, isTransforming, setIsTransforming, hasDownload = false }: TransformedImageProps) => {
   const downloadHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    console.log(transformationConfig)
     e.preventDefault();
-
-    download(getCldImageUrl({
+    const transformedImageUrl = getCldImageUrl({
       width: image?.width,
       height: image?.height,
       src: image?.publicId,
-      ...transformationConfig
-    }), title)
-  }
+      ...transformationConfig // Ensure transformationConfig contains the necessary transformations
+    });
+    download(transformedImageUrl, title);
+}
 
   return (
     <div className="flex flex-col gap-4">
@@ -25,7 +26,7 @@ const TransformedImage = ({ image, type, title, transformationConfig, isTransfor
           Transformed
         </h3>
 
-        {hasDownload && (
+        {/* {hasDownload && (
           <button 
             className="download-btn bg-white rounded-full" 
             onClick={downloadHandler}
@@ -39,7 +40,7 @@ const TransformedImage = ({ image, type, title, transformationConfig, isTransfor
               className="pb-[6px]"
             />
           </button>
-        )}
+        )} */}
       </div>
 
       {image?.publicId && transformationConfig ? (
